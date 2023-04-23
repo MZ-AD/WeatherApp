@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import axios from "axios";
-import { upload } from "@testing-library/user-event/dist/upload";
 
 
 function App() {
