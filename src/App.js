@@ -19,9 +19,9 @@ searchLocation(' ')
 
 axios.get(forecastUrl).then((response) => 
   {
+    setForecastData(response.data.list.filter((_, index) => index % 8 === 0));
 
-  setForecastData(response.data.list);
-});
+  });
 setLocation("");
   }
 }
