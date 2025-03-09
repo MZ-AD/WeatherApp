@@ -91,16 +91,17 @@ body {
   font-size: 1.2rem;
 }
 
-/* Forecast Section */
+/* Forecast Section 3to5 p1 */
 .forecast {
   width: 100%;
   max-width: 1000px;
-  padding: 20px;
+  padding: 10px;
   text-align: center;
 }
 
 .forecast h2 {
   font-size: 2rem;
+  font-weight: bold;
   margin-bottom: 20px;
   color: #2d9cdb;
 }
@@ -109,7 +110,7 @@ body {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 25px;
 }
 
 .forecast-card {
@@ -147,4 +148,14 @@ body {
   background: rgba(0, 0, 0, 0.4);
   border-radius: 15px;
   z-index: 1;
+}
+
+
+.five-days{
+color: black;
+}
+
+.five-days-two{
+  font-weight: bold;
+  
 }

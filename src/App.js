@@ -114,11 +114,11 @@ setLocation("");
                   className="forecast-card"
                   style={backgroundStyle}
                 >
-                  <h3>{new Date(forecast.dt_txt).toLocaleDateString()}</h3>
-                     <p>{forecast.weather[0].description}</p>
-                  <p>{forecast.main.temp}°F</p>
-                   <p>Humidity: {forecast.main.humidity}%</p>
-                  <p>Wind: {forecast.wind.speed} MPH  </p>
+                  <h3 class="five-days">{new Date(forecast.dt_txt).toLocaleDateString()}</h3>
+                     <p class="five-days-two">{forecast.weather[0].description}</p>
+                  <p class="five-days-two">{forecast.main.temp}°F</p>
+                   <p class="five-days-two">Humidity: {forecast.main.humidity}%</p>
+                  <p class="five-days-two">Wind: {forecast.wind.speed} MPH  </p>
                 </div>
               )
             })
