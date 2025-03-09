@@ -1,6 +1,9 @@
 import React, {useState} from "react";
 import axios from "axios";
-
+import sunnyImage from './sunny.jpg';
+import rainyImage from './rainy.jpg';
+import cloudyImage from './cloudy.jpg';
+import snowyImage from './snowy.jpg';
 
 function App() {
   const [data,setData] = useState({});
@@ -8,6 +11,29 @@ function App() {
   const [forecastData, setForecastData] = useState([]);
 
 const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=ab8622d5f5453c45c9181938f10cdfe5`
+
+const getBackgroundImage = (description) => {
+
+  if (description.includes("clear")) {
+    return { backgroundImage: `url(${sunnyImage})`, backgroundSize: 'cover', backgroundPosition: 'center' };
+  }
+       else if (description.includes("rain"))  {
+    return { backgroundImage: `url(${rainyImage})`, backgroundSize: 'cover', backgroundPosition: 'center' };
+  }
+     else if (description.includes("cloud")) {
+    return { backgroundImage: `url(${cloudyImage})`, backgroundSize: 'cover', backgroundPosition: 'center' };
+  }
+       else if (description.includes("snow ")) {
+    return { backgroundImage: `url(${snowyImage})`, backgroundSize: 'cover', backgroundPosition: 'center' };
+  }
+
+  else 
+  {
+    return { backgroundImage: `url(${sunnyImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }; 
+  }
+};
+
+
 const searchLocation =  ( event) => {
  if  (event.key === "Enter") {
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=ab8622d5f5453c45c9181938f10cdfe5&units=imperial`;
@@ -29,6 +55,10 @@ setLocation("");
 
   return (
     <div className="app">
+      <header className="header">
+        <h1>Weatherify</h1>
+        <p>Your weather forecast, anytime, anywhere</p>
+      </header>
       <div className="search">
         <input 
         value={location}
@@ -37,8 +67,9 @@ setLocation("");
         placeholder='Enter Location'
         type="text"/>
       </div>
-      <div className="container">
-        <div className="top">
+
+      {data && data.main && data.weather && data.name && (
+  <div className="current-weather">
           <div className="location">
             <p>{data.name}</p>
            </div>
@@ -48,12 +79,9 @@ setLocation("");
            <div className="description">
             {data.weather ? <p>{data.weather[0].description}</p> : null}           
             </div>
-            </div>
 
-
-            {data.name !== undefined &&
-            <div className="bottom">
-            <div className="feels">
+    <div className="bottom2">
+    <div className="feels">
               {data.main ? <p className="bold">{data.main.feels_like}</p> : null}
             
             <p>Feels like</p> 
@@ -67,48 +95,38 @@ setLocation("");
             <p>Wind Speed</p>
             </div>
             </div> 
-}
+  </div>
+)}
+
+
 
     {forecastData.length > 0 && (
-          <div className="forecast">
+         <div className="forecast">
             <h2>Days Forecast </h2>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                overflowX: "auto",
-                marginTop: "20px",
-              }}
-            >
-              {forecastData.map((forecast, index) => (
+          <div className="forecast-cards">
+
+            {
+            forecastData.map((forecast,index) => {
+              const backgroundStyle = getBackgroundImage(forecast.weather[0].description);
+              return (
                 <div
-                  key={index}
-                  style={{
-                    backgroundColor: "#f0f0f0",
-                    padding: "15px",
-                    borderRadius: "8px",
-                    
-                    textAlign: "center",
-                    minWidth: "150px",
-                    margin: "0 10px",
-                    color: "#000", 
-                  }}
+                   key={index}
+                  className="forecast-card"
+                  style={backgroundStyle}
                 >
                   <h3>{new Date(forecast.dt_txt).toLocaleDateString()}</h3>
                      <p>{forecast.weather[0].description}</p>
-
                   <p>{forecast.main.temp}°F</p>
                    <p>Humidity: {forecast.main.humidity}%</p>
                   <p>Wind: {forecast.wind.speed} MPH  </p>
                 </div>
-              ))
+              )
+            })
             }
-            </div>
-
           </div>
-        )}
-            </div>
-            </div>
+                   </div>
+      )}
+    </div>
   );
 }
 
