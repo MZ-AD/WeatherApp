@@ -69,7 +69,7 @@ setLocation("");
       </div>
 
       {data && data.main && data.weather && data.name && (
-  <div className="current-weather">
+  <div className="current-weather" style={getBackgroundImage(data.weather[0].description)}>
           <div className="location">
             <p>{data.name}</p>
            </div>
