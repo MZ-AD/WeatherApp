@@ -159,3 +159,22 @@ color: black;
   font-weight: bold;
   
 }
+
+.five-days-three {
+  color: white;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.current-weather{
+  color: white;
+  font-weight: bolder;
+}
+
+.location-one{
+  font-size: 2rem;
+}
+
+.description{
+  text-transform: capitalize
+}

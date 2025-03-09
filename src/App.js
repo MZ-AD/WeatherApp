@@ -70,7 +70,7 @@ setLocation("");
 
       {data && data.main && data.weather && data.name && (
   <div className="current-weather" style={getBackgroundImage(data.weather[0].description)}>
-          <div className="location">
+          <div className="location-one">
             <p>{data.name}</p>
            </div>
            <div className="temp">
@@ -115,7 +115,7 @@ setLocation("");
                   style={backgroundStyle}
                 >
                   <h3 class="five-days">{new Date(forecast.dt_txt).toLocaleDateString()}</h3>
-                     <p class="five-days-two">{forecast.weather[0].description}</p>
+                     <p class="five-days-three">{forecast.weather[0].description}</p>
                   <p class="five-days-two">{forecast.main.temp}°F</p>
                    <p class="five-days-two">Humidity: {forecast.main.humidity}%</p>
                   <p class="five-days-two">Wind: {forecast.wind.speed} MPH  </p>
