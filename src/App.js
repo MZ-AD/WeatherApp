@@ -4,11 +4,16 @@ import sunnyImage from './sunny.jpg';
 import rainyImage from './rainy.jpg';
 import cloudyImage from './cloudy.jpg';
 import snowyImage from './snowy.jpg';
+import './App.css';
+import backgroundImage from './mix.jpg';
+import { FaSearch } from 'react-icons/fa';
+
 
 function App() {
   const [data,setData] = useState({});
   const [location, setLocation] = useState("");
   const [forecastData, setForecastData] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
 
 const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=ab8622d5f5453c45c9181938f10cdfe5`
 
@@ -52,20 +57,60 @@ setLocation("");
   }
 }
 
+  const handleInputChange = (event) => {
+    const query = event.target.value;
+    setLocation(query);
+
+    
+    if (query) {
+      axios
+        .get(`https://api.openweathermap.org/data/2.5/find?q=${query}&appid=ab8622d5f5453c45c9181938f10cdfe5`)
+        .then((response) => {
+          setSuggestions(response.data.list); 
+        });
+    } else {
+      setSuggestions([]); 
+    }
+  };
+
+  const handleSuggestionClick = (city) => {
+    setLocation(city.name);
+    setSuggestions([]); 
+  };
 
   return (
-    <div className="app">
+    <div className="app" 
+    style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>
       <header className="header">
         <h1>Weatherify</h1>
-        <p>Your weather forecast, anytime, anywhere</p>
+        <p className="slogan">Your weather forecast, anytime, anywhere</p>
       </header>
       <div className="search">
-        <input 
-        value={location}
-        onChange={(event) => setLocation(event.target.value)}
-        onKeyPress={searchLocation}
-        placeholder='Enter Location'
-        type="text"/>
+        <div className="search-container">
+          <FaSearch className="search-icon" />
+          <input
+            value={location}
+            onChange={handleInputChange}
+            onKeyPress={searchLocation}
+            placeholder="Enter Location"
+            type="text"
+            className="search-input"
+          />
+        </div>
+       
+        {suggestions.length > 0 && (
+          <div className="suggestions">
+            {suggestions.map((city, index) => (
+              <div 
+                key={index}
+                className="suggestion-item"
+                onClick={() => handleSuggestionClick(city)}
+              >
+                {city.name}, {city.sys.country}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {data && data.main && data.weather && data.name && (
