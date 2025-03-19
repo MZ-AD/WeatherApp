@@ -1,4 +1,4 @@
-
+/* General Styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -19,22 +19,17 @@ body {
   align-items: center;
   justify-content: flex-start;
   height: 100vh;
-  background-color: #f0f8ff;
   padding: 20px;
-  transition: background-color 0.5s ease;
 }
 
 .header {
   text-align: center;
   margin-bottom: 40px;
-  color: #333;
 }
 
 .header h1 {
   font-size: 3rem;
   color: #2d9cdb;
-  font-weight: bold;
-  letter-spacing: 1px;
 }
 
 .header p {
@@ -42,17 +37,15 @@ body {
   color: #777;
 }
 
-.slogan{
-  color: white !important; 
+.slogan {
   font-weight: bold;
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: white;
 }
 
 .search {
   width: 100%;
   max-width: 500px;
   margin: 20px auto;
-  text-align: center;
 }
 
 .search-container {
@@ -63,25 +56,18 @@ body {
 
 .search-icon {
   position: absolute;
-  right: 20px; 
+  right: 20px;
   color: #999;
-  font-size: 18px;
 }
 
 .search-input {
-  padding-right: 30px;
-  padding: 10px;
   width: 100%;
+  padding: 15px;
+  font-size: 1.5rem;
   border-radius: 25px;
   border: 2px solid #2d9cdb;
   outline: none;
   background-color: #f0f0f0;
-  font-size: 16px;
-  transition: all 0.3s ease;
-}
-
-.search-input:focus {
-  border-color: #4caf50;
 }
 
 .suggestions {
@@ -101,7 +87,6 @@ body {
   padding: 10px;
   font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .suggestion-item:hover {
@@ -110,51 +95,32 @@ body {
 
 .current-weather {
   background-color: rgba(0, 0, 0, 0.4);
-  padding: 20px;
+  padding: 30px;
   width: 100%;
   max-width: 600px;
   border-radius: 10px;
+  color: white;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   text-align: center;
   margin-bottom: 40px;
-  color: white;
-  transition: transform 0.3s ease;
 }
 
-.current-weather:hover {
-  transform: scale(1.03);
+.weather-info {
+  margin-top: 20px;
 }
 
-.current-weather h1 {
-  font-size: 4rem;
-  margin-bottom: 20px;
-}
-
-.current-weather .description p {
-  font-size: 1.2rem;
-  margin: 10px 0;
-}
-
-.bottom2 {
+.bottom-info {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
 
-.bottom2 div {
-  font-size: 1.1rem;
+.bottom-info div {
+  font-size: 1.2rem;
 }
 
 .forecast {
   margin-top: 40px;
-  text-align: center;
-}
-
-.forecast h2 {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #2d9cdb;
 }
 
 .forecast-cards {
@@ -171,43 +137,9 @@ body {
   border-radius: 8px;
   color: white;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .forecast-card:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
-
-.five-days {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.five-days-two {
-  font-size: 14px;
-}
-
-.five-days-three {
-  font-size: 14px;
-  font-weight: bold;
-  text-transform: capitalize;
-}
-
-.current-weather .location-one p {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.temp h1 {
-  font-size: 48px;
-}
-
-.description p {
-  font-size: 20px;
-}
-
-.bold {
-  font-weight: bold;
-}
-

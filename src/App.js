@@ -1,13 +1,8 @@
 import React, {useState} from "react";
 import axios from "axios";
-import sunnyImage from './sunny.jpg';
-import rainyImage from './rainy.jpg';
-import cloudyImage from './cloudy.jpg';
-import snowyImage from './snowy.jpg';
-import './App.css';
-import backgroundImage from './mix.jpg';
 import { FaSearch } from 'react-icons/fa';
-
+import './App.css';
+import { WiDaySunny, WiRain, WiCloud, WiSnow } from 'react-icons/wi';
 
 function App() {
   const [data,setData] = useState({});
@@ -15,27 +10,19 @@ function App() {
   const [forecastData, setForecastData] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
 
-const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=ab8622d5f5453c45c9181938f10cdfe5`
-
-const getBackgroundImage = (description) => {
+const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=ab8622d5f5453c45c9181938f10cdfe5&units=metric`;
+const getWeatherIcon = (description) => {
 
   if (description.includes("clear")) {
-    return { backgroundImage: `url(${sunnyImage})`, backgroundSize: 'cover', backgroundPosition: 'center' };
+    return <WiDaySunny size={50} />;
+  }       else if (description.includes("rain")) {
+    return <WiRain size={50} />;
+  } else if (description.includes("cloud")) {
+    return <WiCloud size={50} />;
+  } else if (description.includes("snow")) {
+    return <WiSnow size={50} />;
   }
-       else if (description.includes("rain"))  {
-    return { backgroundImage: `url(${rainyImage})`, backgroundSize: 'cover', backgroundPosition: 'center' };
-  }
-     else if (description.includes("cloud")) {
-    return { backgroundImage: `url(${cloudyImage})`, backgroundSize: 'cover', backgroundPosition: 'center' };
-  }
-       else if (description.includes("snow ")) {
-    return { backgroundImage: `url(${snowyImage})`, backgroundSize: 'cover', backgroundPosition: 'center' };
-  }
-
-  else 
-  {
-    return { backgroundImage: `url(${sunnyImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }; 
-  }
+  return <WiDaySunny size={50} />;
 };
 
 
@@ -61,7 +48,7 @@ setLocation("");
     const query = event.target.value;
     setLocation(query);
 
-    
+
     if (query) {
       axios
         .get(`https://api.openweathermap.org/data/2.5/find?q=${query}&appid=ab8622d5f5453c45c9181938f10cdfe5`)
@@ -78,9 +65,16 @@ setLocation("");
     setSuggestions([]); 
   };
 
+ 
+
+  const formatDate = (date) => {
+
+    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(date).toLocaleDateString(undefined, options);
+  };
+
   return (
-    <div className="app" 
-    style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>
+    <div className="app">
       <header className="header">
         <h1>Weatherify</h1>
         <p className="slogan">Your weather forecast, anytime, anywhere</p>
@@ -113,31 +107,27 @@ setLocation("");
         )}
       </div>
 
-      {data && data.main && data.weather && data.name && (
-  <div className="current-weather" style={getBackgroundImage(data.weather[0].description)}>
+      {data.main && data.weather && (
+  <div className="current-weather">
           <div className="location-one">
             <p>{data.name}</p>
            </div>
+          <div className="weather-info">
            <div className="temp">
-           {data.main ? <h1>{data.main.temp}°F</h1> : null}
+          <h1>{data.main.temp}°C</h1>
            </div>
-           <div className="description">
-            {data.weather ? <p>{data.weather[0].description}</p> : null}           
+           <div className="weather-description">
+            {getWeatherIcon(data.weather[0].description)}
+ <p>{data.weather[0].description}</p>
             </div>
 
-    <div className="bottom2">
-    <div className="feels">
-              {data.main ? <p className="bold">{data.main.feels_like}</p> : null}
-            
-            <p>Feels like</p> 
+    <div className="bottom-info">
+    <div className="feels-like">
+               <p><strong>Feels Like:</strong> {data.main.feels_like}°C</p>
             </div>
             <div className="humidity">
-              {data.main ? <p className="bold">{data.main.humidity}</p> : null}
-            <p>Humidity</p>
+                  <p><strong>Humidity:</strong> {data.main.humidity}%</p>
             </div>
-            <div className="wind">
-              {data.wind ? <p className="bold">{data.wind.speed}MPH</p> : null}
-            <p>Wind Speed</p>
             </div>
             </div> 
   </div>
@@ -147,23 +137,22 @@ setLocation("");
 
     {forecastData.length > 0 && (
          <div className="forecast">
-            <h2>Days Forecast </h2>
+            <h2>Upcoming Forecast </h2>
           <div className="forecast-cards">
 
             {
             forecastData.map((forecast,index) => {
-              const backgroundStyle = getBackgroundImage(forecast.weather[0].description);
               return (
                 <div
                    key={index}
-                  className="forecast-card"
-                  style={backgroundStyle}
-                >
-                  <h3 class="five-days">{new Date(forecast.dt_txt).toLocaleDateString()}</h3>
-                     <p class="five-days-three">{forecast.weather[0].description}</p>
-                  <p class="five-days-two">{forecast.main.temp}°F</p>
-                   <p class="five-days-two">Humidity: {forecast.main.humidity}%</p>
-                  <p class="five-days-two">Wind: {forecast.wind.speed} MPH  </p>
+                  className="forecast-card">
+                  <h3>{formatDate(forecast.dt_txt)}</h3>
+                  {getWeatherIcon(forecast.weather[0].description)}
+
+                     <p>{forecast.weather[0].description}</p>
+                  <p>Temp: {forecast.main.temp}°C</p>
+                   <p>Humidity: {forecast.main.humidity}%</p>
+                  <p>Rain Chance: {forecast.rain ? `${forecast.rain['3h']} mm` : 'None'}</p>
                 </div>
               )
             })
