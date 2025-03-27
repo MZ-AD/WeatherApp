@@ -3,12 +3,14 @@ import axios from "axios";
 import { FaSearch } from 'react-icons/fa';
 import './App.css';
 import { WiDaySunny, WiRain, WiCloud, WiSnow, WiSunrise, WiSunset } from 'react-icons/wi';
+import { WiHumidity } from 'react-icons/wi';
 
 function App() {
   const [data,setData] = useState({});
   const [location, setLocation] = useState("");
   const [forecastData, setForecastData] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
+  const [isCelsius, setIsCelsius] = useState(true); 
 
 const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=ab8622d5f5453c45c9181938f10cdfe5&units=metric`;
 const getWeatherIcon = (description) => {
@@ -24,11 +26,11 @@ const getWeatherIcon = (description) => {
   return <WiDaySunny size={200} />;
 };
 
+const searchLocation =(event, city = location) => {
+ if (event && event.key !== "Enter") return;
 
-const searchLocation =  ( event) => {
- if  (event.key === "Enter") {
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=ab8622d5f5453c45c9181938f10cdfe5&units=imperial`;
-     axios.get(url).then((response) => {
+    axios.get(url.replace(location, city)).then((response) => {
   setData(response.data)
   console.log(response.data)
 })
@@ -39,9 +41,9 @@ axios.get(forecastUrl).then((response) =>
     setForecastData(response.data.list.filter((_, index) => index % 8 === 0));
 
   });
-setLocation("");
+setLocation(city);
+    setSuggestions([]);
   }
-}
 
   const handleInputChange = (event) => {
     const query = event.target.value;
@@ -62,6 +64,7 @@ setLocation("");
   const handleSuggestionClick = (city) => {
     setLocation(city.name);
     setSuggestions([]); 
+    searchLocation(null, city.name);
   };
 
  
@@ -90,6 +93,17 @@ setLocation("");
       </div>
     );
   };
+  const handleUnitToggle = () => {
+    setIsCelsius(!isCelsius); };
+  
+
+  const convertToFahrenheit = (celsius) => {
+    return (celsius * 9) / 5 + 32;
+
+  };
+
+  const handleAddToFavorites = () => {
+    console.log(`Added ${data.name} to favourites!`);};
 
   return (
     <div className="app">
@@ -108,6 +122,7 @@ setLocation("");
             type="text"
             className="search-input"
           />
+          <button onClick={handleAddToFavorites} className="add-to-fav-btn">+ Favorite</button>
         </div>
         {suggestions.length > 0 && (
           <div className="suggestions">
@@ -139,22 +154,36 @@ setLocation("");
            </div>
           <div className="weather-info">
            <div className="temp">
-          <h1>{data.main.temp}°C</h1>
-           </div>
-           <div className="weather-description">
-            {getWeatherIcon(data.weather[0].description)}
- <p>{data.weather[0].description}</p>
+          <h1>
+                {isCelsius
+                  ? `${data.main.temp}°C`
+                  : `${convertToFahrenheit(data.main.temp).toFixed(1)}°F`}
+              </h1>
+            </div>
+            <button onClick={handleUnitToggle} className="unit-toggle-btn">
+                     {isCelsius ? 'Convert to °F' : 'Convert to °C'}
+            </button>
+
+            <div className="weather-description">
+             
+              {getWeatherIcon(data.weather[0].description)}
+              <p> {data.weather[0].description
+                  .split(' ')
+                     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(' ')}
+              </p>
             </div>
 
     <div className="bottom-info">
     <div className="feels-like">
-               <p><strong>Feels Like:</strong> {data.main.feels_like}°C</p>
+               <p><strong>Feels:</strong> {data.main.feels_like}°C</p>
             </div>
-            <div className="humidity">
-                  <p><strong>Humidity:</strong> {data.main.humidity}%</p>
+            <div className="humid-23">
+                <WiHumidity size={30} />
+                <p><strong>{data.main.humidity}%</strong></p>
 </div>
                 <div className="rain-chance">
-                <p><strong>Rain Forecast:</strong> {data.rain ? `${data.rain['1h']} mm` : 'None'}</p>
+                <p><strong>Rain:</strong> {data.rain ? `${data.rain['1h']} mm` : 'None'}</p>
             </div>
             </div>
           </div>
@@ -165,19 +194,25 @@ setLocation("");
 
     {forecastData.length > 0 && (
          <div className="forecast">
-          {/* <h2>Upcoming Forecast</h2> */}
           <div className="forecast-cards">
             {forecastData.map((forecast,index) => {
               return (
-                <div
+                <div 
                    key={index}
                   className="forecast-card">
                   <h3>{formatDate(forecast.dt_txt)}</h3>
+                  <div className="forecast-icon-temp">
                   {getWeatherIcon(forecast.weather[0].description)}
+                    <p className="temperature">{forecast.main.temp}°C</p>
+                  </div>
+                  <p className="weather-description2">
+                    {forecast.weather[0].description
+                      .split(' ')
+                      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                      .join(' ')}
+                  </p>
 
-                     <p>{forecast.weather[0].description}</p>
-                  <p>Temp: {forecast.main.temp}°C</p>
-                   <p>Humidity: {forecast.main.humidity}%</p>
+                  <p className="humidity-2">Humidity: {forecast.main.humidity}%</p>
                   <p>Rain Chance: {forecast.rain ? `${forecast.rain['3h']} mm` : 'None'}</p>
                 </div>
               )

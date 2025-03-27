@@ -127,19 +127,17 @@ body {
   width: 100%;
   max-width: 500px;
   margin: 20px auto;
-  
 }
 
 .search-container {
   display: flex;
   align-items: center;
   position: relative;
-  
 }
 
 .search-icon {
   position: absolute;
-  right: 20px;
+  right: 140px;
   color: #999;
 }
 
@@ -148,11 +146,38 @@ body {
   padding: 15px;
   font-size: 1.5rem;
   border-radius: 25px;
-  color:white;
+  color: white;
   border: 2px solid #000000 !important;
   outline: none;
-  background-color: rgba(0, 0, 0, 0.4) !important
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  padding-right: 50px; 
 }
+
+.add-to-fav-btn {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 8px 10px;
+  text-wrap: nowrap;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-left: 10px; 
+}
+
+.add-to-fav-btn:hover {
+  background-color: #0056b3;
+}
+
+.add-to-fav-btn:focus {
+  outline: none;
+}
+
+.search-container button {
+  display: inline-block;
+  text-align: center;
+}
+
 
 .suggestions {
   position: absolute;
@@ -207,30 +232,125 @@ body {
   margin-top: 40px;
 }
 
-.forecast-cards {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
 .forecast-card {
-  width: 180px;
-  padding: 15px;
-  background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 8px;
+  width: 220px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
   color: white;
   text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .forecast-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
+
+.forecast-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.forecast-card .forecast-icon-temp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.forecast-card .forecast-icon-temp svg {
+  width: 40px; 
+  height: 40px; 
+  margin-right: 10px; 
+}
+
+.forecast-card .temperature {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: white;
+}
+
+.forecast-card p {
+  font-size: 1.1rem;
+  margin: 8px 0;
+  color: #ddd;
+}
+
+.forecast-card p strong {
+  font-weight: 600;
+  color: #fff;
+}
+
+.forecast-card .bottom-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #eee;
+}
+
+.forecast-card .bottom-info div {
+  margin: 0;
+  flex: 1;
+  text-align: center;
+}
+
+.forecast-card .rain-chance {
+  color: #ffcc00; 
+}
+
+.forecast-card .humidity {
+  color: #00bfff; 
+}
+
+.forecast-card .temperature,
+.forecast-card .rain-chance,
+.forecast-card .humidity {
+  margin-top: 8px;
+}
+
+
+.humid-23 {
+  display: flex;          
+  align-items: center;    
+  gap: 8px;               
+}
+
+.humid-23 p {
+  margin: 0;             
+}
+
+
+
+.humidity-2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #00bfff; 
+  background-color: rgba(0, 191, 255, 0.2); 
+  padding: 5px 10px; 
+  border-radius: 8px;
+  margin-top: 10px; 
+  text-align: center; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.humidity-2:hover {
+  background-color: rgba(0, 191, 255, 0.3); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+  transform: scale(1.05); 
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
 
 .sunrise-sunset-section{
   display: flex !important;
-  margin-top: 10px;
+  margin-top: 15px;
+  text-align: center;
+  margin-bottom: 15px;
   
 }
 
@@ -241,5 +361,7 @@ body {
 
 .sunset{
   color: orange;
-  margin-left: 30px;
+  margin-left: 100px;
 }
+
+
